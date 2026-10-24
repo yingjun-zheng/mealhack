@@ -1,0 +1,17 @@
+# 凭证绝不入库
+.env
+.env.*
+!.env.example
+
+# MCP 原始返回（可能含账号信息，脱敏后再提交）
+samples/*.raw.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 产物
+out/
+*.log

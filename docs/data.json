@@ -1,0 +1,741 @@
+{
+ "store": {
+  "code": "3230251",
+  "name": "麦当劳沈阳中华路联营餐厅"
+ },
+ "meal": {
+  "code": "9900005456",
+  "name": "麦辣鸡腿汉堡三件套",
+  "base_price": 33.5
+ },
+ "meta": {
+  "combination_count": 84,
+  "price_verified": true,
+  "verify_rate": 100.0,
+  "front_size": 6
+ },
+ "warnings": [
+  "4 个餐品缺营养数据，已排除出组合空间：5块心形薯饼+韩式辣椒黄油风味酱、【美汁源】“多汁柠柠”、月下相思扭扭薯、马来咖喱风味薄皮肉骨鸡3块"
+ ],
+ "default_index": 0,
+ "knee_index": 53,
+ "front_indices": [
+  63,
+  74,
+  11,
+  53,
+  19,
+  61
+ ],
+ "combos": [
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 可乐中杯",
+   "price": 33.5,
+   "kcal": 921,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 100%苹果汁",
+   "price": 35.0,
+   "kcal": 862,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 【美汁源】“黄金橙橙”",
+   "price": 36.5,
+   "kcal": 939,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1426
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 中杯怡泉+C",
+   "price": 35.0,
+   "kcal": 884,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 冰浓浓黑巧中杯",
+   "price": 44.5,
+   "kcal": 909,
+   "protein": 36.0,
+   "fat": 42.0,
+   "sodium": 1450
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 可乐大杯",
+   "price": 35.5,
+   "kcal": 998,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 大杯怡泉+C",
+   "price": 37.0,
+   "kcal": 942,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 大杯鲜萃咖啡",
+   "price": 35.0,
+   "kcal": 787,
+   "protein": 29.0,
+   "fat": 36.0,
+   "sodium": 1376
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 无糖可口可乐中杯",
+   "price": 33.5,
+   "kcal": 774,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1408
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 无糖可口可乐大杯",
+   "price": 35.5,
+   "kcal": 774,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1426
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 热浓浓黑巧中杯",
+   "price": 44.5,
+   "kcal": 950,
+   "protein": 38.0,
+   "fat": 44.0,
+   "sodium": 1474
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 纯牛奶",
+   "price": 34.5,
+   "kcal": 903,
+   "protein": 35.0,
+   "fat": 43.0,
+   "sodium": 1446
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 锡兰红茶",
+   "price": 34.0,
+   "kcal": 776,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 阳光柠檬红茶中杯",
+   "price": 33.5,
+   "kcal": 891,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1390
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 阳光柠檬红茶大杯",
+   "price": 35.5,
+   "kcal": 952,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1398
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 雪碧中杯",
+   "price": 33.5,
+   "kcal": 879,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1402
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 雪碧大杯",
+   "price": 35.5,
+   "kcal": 934,
+   "protein": 28.0,
+   "fat": 36.0,
+   "sodium": 1418
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™冰奶铁中杯",
+   "price": 44.5,
+   "kcal": 922,
+   "protein": 36.0,
+   "fat": 43.0,
+   "sodium": 1450
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™冰美式中杯",
+   "price": 42.5,
+   "kcal": 787,
+   "protein": 29.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™热奶铁中杯",
+   "price": 44.5,
+   "kcal": 960,
+   "protein": 39.0,
+   "fat": 44.0,
+   "sodium": 1472
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™热美式中杯",
+   "price": 42.5,
+   "kcal": 787,
+   "protein": 29.0,
+   "fat": 36.0,
+   "sodium": 1373
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 可乐中杯",
+   "price": 35.0,
+   "kcal": 719,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 100%苹果汁",
+   "price": 36.5,
+   "kcal": 660,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 【美汁源】“黄金橙橙”",
+   "price": 38.0,
+   "kcal": 737,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1263
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 中杯怡泉+C",
+   "price": 36.5,
+   "kcal": 682,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 冰浓浓黑巧中杯",
+   "price": 46.0,
+   "kcal": 707,
+   "protein": 36.0,
+   "fat": 31.0,
+   "sodium": 1287
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 可乐大杯",
+   "price": 37.0,
+   "kcal": 796,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 大杯怡泉+C",
+   "price": 38.5,
+   "kcal": 740,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 大杯鲜萃咖啡",
+   "price": 36.5,
+   "kcal": 585,
+   "protein": 29.0,
+   "fat": 25.0,
+   "sodium": 1213
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 无糖可口可乐中杯",
+   "price": 35.0,
+   "kcal": 572,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1245
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 无糖可口可乐大杯",
+   "price": 37.0,
+   "kcal": 572,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1263
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 热浓浓黑巧中杯",
+   "price": 46.0,
+   "kcal": 748,
+   "protein": 38.0,
+   "fat": 33.0,
+   "sodium": 1311
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 纯牛奶",
+   "price": 36.0,
+   "kcal": 701,
+   "protein": 35.0,
+   "fat": 32.0,
+   "sodium": 1283
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 锡兰红茶",
+   "price": 35.5,
+   "kcal": 574,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 阳光柠檬红茶中杯",
+   "price": 35.0,
+   "kcal": 689,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1227
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 阳光柠檬红茶大杯",
+   "price": 37.0,
+   "kcal": 750,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1235
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 雪碧中杯",
+   "price": 35.0,
+   "kcal": 677,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1239
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 雪碧大杯",
+   "price": 37.0,
+   "kcal": 732,
+   "protein": 28.0,
+   "fat": 25.0,
+   "sodium": 1255
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™冰奶铁中杯",
+   "price": 46.0,
+   "kcal": 720,
+   "protein": 36.0,
+   "fat": 32.0,
+   "sodium": 1287
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™冰美式中杯",
+   "price": 44.0,
+   "kcal": 585,
+   "protein": 29.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™热奶铁中杯",
+   "price": 46.0,
+   "kcal": 758,
+   "protein": 39.0,
+   "fat": 33.0,
+   "sodium": 1309
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™热美式中杯",
+   "price": 44.0,
+   "kcal": 585,
+   "protein": 29.0,
+   "fat": 25.0,
+   "sodium": 1210
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 可乐中杯",
+   "price": 35.0,
+   "kcal": 1011,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 100%苹果汁",
+   "price": 36.5,
+   "kcal": 952,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 【美汁源】“黄金橙橙”",
+   "price": 38.0,
+   "kcal": 1029,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1477
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 中杯怡泉+C",
+   "price": 36.5,
+   "kcal": 974,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 冰浓浓黑巧中杯",
+   "price": 46.0,
+   "kcal": 999,
+   "protein": 38.0,
+   "fat": 46.0,
+   "sodium": 1501
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 可乐大杯",
+   "price": 37.0,
+   "kcal": 1088,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 大杯怡泉+C",
+   "price": 38.5,
+   "kcal": 1032,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 大杯鲜萃咖啡",
+   "price": 36.5,
+   "kcal": 877,
+   "protein": 31.0,
+   "fat": 40.0,
+   "sodium": 1427
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 无糖可口可乐中杯",
+   "price": 35.0,
+   "kcal": 864,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1459
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 无糖可口可乐大杯",
+   "price": 37.0,
+   "kcal": 864,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1477
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 热浓浓黑巧中杯",
+   "price": 46.0,
+   "kcal": 1040,
+   "protein": 40.0,
+   "fat": 48.0,
+   "sodium": 1525
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 纯牛奶",
+   "price": 36.0,
+   "kcal": 993,
+   "protein": 37.0,
+   "fat": 47.0,
+   "sodium": 1497
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 锡兰红茶",
+   "price": 35.5,
+   "kcal": 866,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 阳光柠檬红茶中杯",
+   "price": 35.0,
+   "kcal": 981,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1441
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 阳光柠檬红茶大杯",
+   "price": 37.0,
+   "kcal": 1042,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1449
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 雪碧中杯",
+   "price": 35.0,
+   "kcal": 969,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1453
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 雪碧大杯",
+   "price": 37.0,
+   "kcal": 1024,
+   "protein": 30.0,
+   "fat": 40.0,
+   "sodium": 1469
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™冰奶铁中杯",
+   "price": 46.0,
+   "kcal": 1012,
+   "protein": 38.0,
+   "fat": 47.0,
+   "sodium": 1501
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™冰美式中杯",
+   "price": 44.0,
+   "kcal": 877,
+   "protein": 31.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™热奶铁中杯",
+   "price": 46.0,
+   "kcal": 1050,
+   "protein": 41.0,
+   "fat": 48.0,
+   "sodium": 1523
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™热美式中杯",
+   "price": 44.0,
+   "kcal": 877,
+   "protein": 31.0,
+   "fat": 40.0,
+   "sodium": 1424
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 可乐中杯",
+   "price": 32.0,
+   "kcal": 685,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 100%苹果汁",
+   "price": 33.5,
+   "kcal": 626,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 【美汁源】“黄金橙橙”",
+   "price": 35.0,
+   "kcal": 703,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1262
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 中杯怡泉+C",
+   "price": 33.5,
+   "kcal": 648,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 冰浓浓黑巧中杯",
+   "price": 43.0,
+   "kcal": 673,
+   "protein": 34.0,
+   "fat": 31.0,
+   "sodium": 1286
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 可乐大杯",
+   "price": 34.0,
+   "kcal": 762,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 大杯怡泉+C",
+   "price": 35.5,
+   "kcal": 706,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 大杯鲜萃咖啡",
+   "price": 33.5,
+   "kcal": 551,
+   "protein": 27.0,
+   "fat": 25.0,
+   "sodium": 1212
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 无糖可口可乐中杯",
+   "price": 32.0,
+   "kcal": 538,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1244
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 无糖可口可乐大杯",
+   "price": 34.0,
+   "kcal": 538,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1262
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 热浓浓黑巧中杯",
+   "price": 43.0,
+   "kcal": 714,
+   "protein": 36.0,
+   "fat": 33.0,
+   "sodium": 1310
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 纯牛奶",
+   "price": 33.0,
+   "kcal": 667,
+   "protein": 33.0,
+   "fat": 32.0,
+   "sodium": 1282
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 锡兰红茶",
+   "price": 32.5,
+   "kcal": 540,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 阳光柠檬红茶中杯",
+   "price": 32.0,
+   "kcal": 655,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1226
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 阳光柠檬红茶大杯",
+   "price": 34.0,
+   "kcal": 716,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1234
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 雪碧中杯",
+   "price": 32.0,
+   "kcal": 643,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1238
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 雪碧大杯",
+   "price": 34.0,
+   "kcal": 698,
+   "protein": 26.0,
+   "fat": 25.0,
+   "sodium": 1254
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™冰奶铁中杯",
+   "price": 43.0,
+   "kcal": 686,
+   "protein": 34.0,
+   "fat": 32.0,
+   "sodium": 1286
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™冰美式中杯",
+   "price": 41.0,
+   "kcal": 551,
+   "protein": 27.0,
+   "fat": 25.0,
+   "sodium": 1209
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™热奶铁中杯",
+   "price": 43.0,
+   "kcal": 724,
+   "protein": 37.0,
+   "fat": 33.0,
+   "sodium": 1308
+  },
+  {
+   "label": "麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™热美式中杯",
+   "price": 41.0,
+   "kcal": 551,
+   "protein": 27.0,
+   "fat": 25.0,
+   "sodium": 1209
+  }
+ ],
+ "marginal": [
+  {
+   "from_price": 32.0,
+   "to_price": 33.0,
+   "delta_price": 1.0,
+   "delta_protein": 7.0,
+   "per_yuan": 7.0
+  },
+  {
+   "from_price": 33.0,
+   "to_price": 34.5,
+   "delta_price": 1.5,
+   "delta_protein": 2.0,
+   "per_yuan": 1.33
+  },
+  {
+   "from_price": 34.5,
+   "to_price": 36.0,
+   "delta_price": 1.5,
+   "delta_protein": 2.0,
+   "per_yuan": 1.33
+  },
+  {
+   "from_price": 36.0,
+   "to_price": 44.5,
+   "delta_price": 8.5,
+   "delta_protein": 2.0,
+   "per_yuan": 0.24
+  },
+  {
+   "from_price": 44.5,
+   "to_price": 46.0,
+   "delta_price": 1.5,
+   "delta_protein": 2.0,
+   "per_yuan": 1.33
+  }
+ ]
+}

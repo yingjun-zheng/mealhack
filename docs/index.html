@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MealHack · 套餐黑客</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2128; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e; --dim:#484f58;
+  --red:#f85149; --green:#3fb950; --blue:#58a6ff; --amber:#d29922;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;
+  line-height:1.6; padding:32px 20px 64px;
+}
+.wrap{max-width:1180px;margin:0 auto}
+.top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+h1{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.tag{font-size:12px;color:var(--muted);border:.5px solid var(--border);border-radius:999px;padding:2px 9px}
+.sub{color:var(--muted);font-size:13px;margin-bottom:26px}
+.sub b{color:var(--text);font-weight:500}
+
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.hero-card{background:var(--panel);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.hero-card.hot{border-color:#5a2d2d;background:linear-gradient(180deg,#1f1517,#161b22)}
+.hero-label{font-size:12px;color:var(--muted);margin-bottom:6px}
+.hero-num{font-size:26px;font-weight:600;font-family:var(--mono);letter-spacing:-.02em}
+.hero-num.red{color:var(--red)} .hero-num.green{color:var(--green)}
+.hero-text{font-size:13px;color:var(--muted);margin-top:4px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px;margin-bottom:22px}
+.panel{background:var(--panel);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.panel h2{font-size:14px;font-weight:500;margin-bottom:2px}
+.panel .note{font-size:12px;color:var(--muted);margin-bottom:12px}
+.chart-box{position:relative;height:400px}
+canvas{width:100%;height:100%;display:block;cursor:crosshair}
+#tip{
+  position:absolute;pointer-events:none;background:#0d1117;border:.5px solid var(--border);
+  border-radius:8px;padding:8px 10px;font-size:12px;display:none;z-index:9;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:280px;line-height:1.5;
+}
+#tip .tl{color:var(--text);font-weight:500;margin-bottom:3px}
+#tip .tv{color:var(--muted);font-family:var(--mono);font-size:11px}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:7px 8px;border-bottom:.5px solid var(--border)}
+td{padding:7px 8px;border-bottom:.5px solid #21262d;font-family:var(--mono);font-size:12px}
+td:first-child{font-family:inherit;font-size:13px;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:#1a2028}
+tr.hl td:first-child{color:var(--red)}
+.num{text-align:right}
+
+.cmp{margin-bottom:16px}
+.cmp-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:.5px solid #21262d;font-size:13px}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row span:first-child{color:var(--muted)}
+.cmp-row span:last-child{font-family:var(--mono)}
+.delta{color:var(--green);font-family:var(--mono)}
+
+.bar-row{margin-bottom:9px}
+.bar-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.bar-head .lb{color:var(--muted);font-family:var(--mono)}
+.bar-head .vl{font-family:var(--mono);font-weight:500}
+.bar-track{height:7px;background:#21262d;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:var(--blue)}
+.bar-fill.bad{background:var(--amber)}
+.bar-fill.best{background:var(--green)}
+
+.warn{margin-top:14px;background:#1f1a12;border:.5px solid #3d3018;border-radius:8px;padding:10px 12px;font-size:12px;color:#c9a961;line-height:1.6}
+.foot{margin-top:26px;font-size:12px;color:var(--dim);line-height:1.8}
+.foot b{color:var(--muted);font-weight:400}
+.badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;border:.5px solid var(--border);color:var(--muted);margin-left:6px;vertical-align:middle}
+.badge.ok{color:var(--green);border-color:#1f5130}
+.badge.no{color:var(--amber);border-color:#3d3018}
+
+@media(max-width:860px){
+  .hero,.grid{grid-template-columns:1fr}
+  .chart-box{height:320px}
+  body{padding:20px 14px 48px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>MealHack · 套餐黑客</h1>
+    <span class="tag">麦当劳 MCP</span>
+    <span class="tag" id="tagVerify"></span>
+  </div>
+  <div class="sub" id="subline"></div>
+
+  <div class="hero">
+    <div class="hero-card">
+      <div class="hero-label">最划算的一段加价</div>
+      <div class="hero-num green" id="bestNum"></div>
+      <div class="hero-text" id="bestText"></div>
+    </div>
+    <div class="hero-card hot">
+      <div class="hero-label">最不划算的一段加价</div>
+      <div class="hero-num red" id="worstNum"></div>
+      <div class="hero-text" id="worstText"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>帕累托前沿：价格 vs 蛋白质</h2>
+      <div class="note">
+        <span style="color:#58a6ff">●</span> 帕累托前沿 &nbsp;
+        <span style="color:#e6edf3">○</span> 默认搭配 &nbsp;
+        <span style="color:#f85149">●</span> 拐点 &nbsp;
+        <span style="color:#484f58">●</span> 其他组合
+        <br>每一个蓝点都无法被「更便宜且蛋白更高」的方案替代。悬停查看具体组合。
+      </div>
+      <div class="chart-box">
+        <canvas id="scatter"></canvas>
+        <div id="tip"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>默认搭配 vs 拐点方案</h2>
+      <div class="note">官方给你的默认选择，通常不是最优解。</div>
+      <div class="cmp" id="cmp"></div>
+      <h2 style="margin-top:18px">每多花 1 元，能换多少蛋白质</h2>
+      <div class="note">断崖出现的位置，就是不该再往上加钱的位置。</div>
+      <div id="bars"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>全部组合</h2>
+    <div class="note" id="tableNote"></div>
+    <div style="max-height:420px;overflow:auto">
+      <table>
+        <thead><tr>
+          <th>组合</th><th class="num">实付</th><th class="num">热量</th>
+          <th class="num">蛋白质</th><th class="num">脂肪</th><th class="num">钠</th>
+          <th class="num">蛋白/元</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="warn" id="warnBox" style="display:none"></div>
+
+  <div class="foot">
+    数据来自麦当劳官方 MCP 的 <b>calculate-price</b> 实时核价，非估算。本项目不调用下单接口，不产生任何真实订单。<br>
+    参赛作品，由参赛者独立开发，非麦当劳官方产品。价格随门店、时段与优惠券变化，结论仅对当次核价有效。
+  </div>
+</div>
+
+<script>
+const DATA = {"store":{"code":"3230251","name":"麦当劳沈阳中华路联营餐厅"},"meal":{"code":"9900005456","name":"麦辣鸡腿汉堡三件套","base_price":33.5},"meta":{"combination_count":84,"price_verified":true,"verify_rate":100.0,"front_size":6},"warnings":["4 个餐品缺营养数据，已排除出组合空间：5块心形薯饼+韩式辣椒黄油风味酱、【美汁源】“多汁柠柠”、月下相思扭扭薯、马来咖喱风味薄皮肉骨鸡3块"],"default_index":0,"knee_index":53,"front_indices":[63,74,11,53,19,61],"combos":[{"label":"麦辣鸡腿汉堡 + 中薯条 + 可乐中杯","price":33.5,"kcal":921,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 100%苹果汁","price":35.0,"kcal":862,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 【美汁源】“黄金橙橙”","price":36.5,"kcal":939,"protein":28.0,"fat":36.0,"sodium":1426},{"label":"麦辣鸡腿汉堡 + 中薯条 + 中杯怡泉+C","price":35.0,"kcal":884,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 冰浓浓黑巧中杯","price":44.5,"kcal":909,"protein":36.0,"fat":42.0,"sodium":1450},{"label":"麦辣鸡腿汉堡 + 中薯条 + 可乐大杯","price":35.5,"kcal":998,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 大杯怡泉+C","price":37.0,"kcal":942,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 大杯鲜萃咖啡","price":35.0,"kcal":787,"protein":29.0,"fat":36.0,"sodium":1376},{"label":"麦辣鸡腿汉堡 + 中薯条 + 无糖可口可乐中杯","price":33.5,"kcal":774,"protein":28.0,"fat":36.0,"sodium":1408},{"label":"麦辣鸡腿汉堡 + 中薯条 + 无糖可口可乐大杯","price":35.5,"kcal":774,"protein":28.0,"fat":36.0,"sodium":1426},{"label":"麦辣鸡腿汉堡 + 中薯条 + 热浓浓黑巧中杯","price":44.5,"kcal":950,"protein":38.0,"fat":44.0,"sodium":1474},{"label":"麦辣鸡腿汉堡 + 中薯条 + 纯牛奶","price":34.5,"kcal":903,"protein":35.0,"fat":43.0,"sodium":1446},{"label":"麦辣鸡腿汉堡 + 中薯条 + 锡兰红茶","price":34.0,"kcal":776,"protein":28.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 阳光柠檬红茶中杯","price":33.5,"kcal":891,"protein":28.0,"fat":36.0,"sodium":1390},{"label":"麦辣鸡腿汉堡 + 中薯条 + 阳光柠檬红茶大杯","price":35.5,"kcal":952,"protein":28.0,"fat":36.0,"sodium":1398},{"label":"麦辣鸡腿汉堡 + 中薯条 + 雪碧中杯","price":33.5,"kcal":879,"protein":28.0,"fat":36.0,"sodium":1402},{"label":"麦辣鸡腿汉堡 + 中薯条 + 雪碧大杯","price":35.5,"kcal":934,"protein":28.0,"fat":36.0,"sodium":1418},{"label":"麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™冰奶铁中杯","price":44.5,"kcal":922,"protein":36.0,"fat":43.0,"sodium":1450},{"label":"麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™冰美式中杯","price":42.5,"kcal":787,"protein":29.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™热奶铁中杯","price":44.5,"kcal":960,"protein":39.0,"fat":44.0,"sodium":1472},{"label":"麦辣鸡腿汉堡 + 中薯条 + 麦咖啡™热美式中杯","price":42.5,"kcal":787,"protein":29.0,"fat":36.0,"sodium":1373},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 可乐中杯","price":35.0,"kcal":719,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 100%苹果汁","price":36.5,"kcal":660,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 【美汁源】“黄金橙橙”","price":38.0,"kcal":737,"protein":28.0,"fat":25.0,"sodium":1263},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 中杯怡泉+C","price":36.5,"kcal":682,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 冰浓浓黑巧中杯","price":46.0,"kcal":707,"protein":36.0,"fat":31.0,"sodium":1287},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 可乐大杯","price":37.0,"kcal":796,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 大杯怡泉+C","price":38.5,"kcal":740,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 大杯鲜萃咖啡","price":36.5,"kcal":585,"protein":29.0,"fat":25.0,"sodium":1213},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 无糖可口可乐中杯","price":35.0,"kcal":572,"protein":28.0,"fat":25.0,"sodium":1245},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 无糖可口可乐大杯","price":37.0,"kcal":572,"protein":28.0,"fat":25.0,"sodium":1263},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 热浓浓黑巧中杯","price":46.0,"kcal":748,"protein":38.0,"fat":33.0,"sodium":1311},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 纯牛奶","price":36.0,"kcal":701,"protein":35.0,"fat":32.0,"sodium":1283},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 锡兰红茶","price":35.5,"kcal":574,"protein":28.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 阳光柠檬红茶中杯","price":35.0,"kcal":689,"protein":28.0,"fat":25.0,"sodium":1227},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 阳光柠檬红茶大杯","price":37.0,"kcal":750,"protein":28.0,"fat":25.0,"sodium":1235},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 雪碧中杯","price":35.0,"kcal":677,"protein":28.0,"fat":25.0,"sodium":1239},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 雪碧大杯","price":37.0,"kcal":732,"protein":28.0,"fat":25.0,"sodium":1255},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™冰奶铁中杯","price":46.0,"kcal":720,"protein":36.0,"fat":32.0,"sodium":1287},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™冰美式中杯","price":44.0,"kcal":585,"protein":29.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™热奶铁中杯","price":46.0,"kcal":758,"protein":39.0,"fat":33.0,"sodium":1309},{"label":"麦辣鸡腿汉堡 + 大杯玉米杯 + 麦咖啡™热美式中杯","price":44.0,"kcal":585,"protein":29.0,"fat":25.0,"sodium":1210},{"label":"麦辣鸡腿汉堡 + 大薯条 + 可乐中杯","price":35.0,"kcal":1011,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 100%苹果汁","price":36.5,"kcal":952,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 【美汁源】“黄金橙橙”","price":38.0,"kcal":1029,"protein":30.0,"fat":40.0,"sodium":1477},{"label":"麦辣鸡腿汉堡 + 大薯条 + 中杯怡泉+C","price":36.5,"kcal":974,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 冰浓浓黑巧中杯","price":46.0,"kcal":999,"protein":38.0,"fat":46.0,"sodium":1501},{"label":"麦辣鸡腿汉堡 + 大薯条 + 可乐大杯","price":37.0,"kcal":1088,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 大杯怡泉+C","price":38.5,"kcal":1032,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 大杯鲜萃咖啡","price":36.5,"kcal":877,"protein":31.0,"fat":40.0,"sodium":1427},{"label":"麦辣鸡腿汉堡 + 大薯条 + 无糖可口可乐中杯","price":35.0,"kcal":864,"protein":30.0,"fat":40.0,"sodium":1459},{"label":"麦辣鸡腿汉堡 + 大薯条 + 无糖可口可乐大杯","price":37.0,"kcal":864,"protein":30.0,"fat":40.0,"sodium":1477},{"label":"麦辣鸡腿汉堡 + 大薯条 + 热浓浓黑巧中杯","price":46.0,"kcal":1040,"protein":40.0,"fat":48.0,"sodium":1525},{"label":"麦辣鸡腿汉堡 + 大薯条 + 纯牛奶","price":36.0,"kcal":993,"protein":37.0,"fat":47.0,"sodium":1497},{"label":"麦辣鸡腿汉堡 + 大薯条 + 锡兰红茶","price":35.5,"kcal":866,"protein":30.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 阳光柠檬红茶中杯","price":35.0,"kcal":981,"protein":30.0,"fat":40.0,"sodium":1441},{"label":"麦辣鸡腿汉堡 + 大薯条 + 阳光柠檬红茶大杯","price":37.0,"kcal":1042,"protein":30.0,"fat":40.0,"sodium":1449},{"label":"麦辣鸡腿汉堡 + 大薯条 + 雪碧中杯","price":35.0,"kcal":969,"protein":30.0,"fat":40.0,"sodium":1453},{"label":"麦辣鸡腿汉堡 + 大薯条 + 雪碧大杯","price":37.0,"kcal":1024,"protein":30.0,"fat":40.0,"sodium":1469},{"label":"麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™冰奶铁中杯","price":46.0,"kcal":1012,"protein":38.0,"fat":47.0,"sodium":1501},{"label":"麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™冰美式中杯","price":44.0,"kcal":877,"protein":31.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™热奶铁中杯","price":46.0,"kcal":1050,"protein":41.0,"fat":48.0,"sodium":1523},{"label":"麦辣鸡腿汉堡 + 大薯条 + 麦咖啡™热美式中杯","price":44.0,"kcal":877,"protein":31.0,"fat":40.0,"sodium":1424},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 可乐中杯","price":32.0,"kcal":685,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 100%苹果汁","price":33.5,"kcal":626,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 【美汁源】“黄金橙橙”","price":35.0,"kcal":703,"protein":26.0,"fat":25.0,"sodium":1262},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 中杯怡泉+C","price":33.5,"kcal":648,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 冰浓浓黑巧中杯","price":43.0,"kcal":673,"protein":34.0,"fat":31.0,"sodium":1286},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 可乐大杯","price":34.0,"kcal":762,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 大杯怡泉+C","price":35.5,"kcal":706,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 大杯鲜萃咖啡","price":33.5,"kcal":551,"protein":27.0,"fat":25.0,"sodium":1212},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 无糖可口可乐中杯","price":32.0,"kcal":538,"protein":26.0,"fat":25.0,"sodium":1244},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 无糖可口可乐大杯","price":34.0,"kcal":538,"protein":26.0,"fat":25.0,"sodium":1262},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 热浓浓黑巧中杯","price":43.0,"kcal":714,"protein":36.0,"fat":33.0,"sodium":1310},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 纯牛奶","price":33.0,"kcal":667,"protein":33.0,"fat":32.0,"sodium":1282},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 锡兰红茶","price":32.5,"kcal":540,"protein":26.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 阳光柠檬红茶中杯","price":32.0,"kcal":655,"protein":26.0,"fat":25.0,"sodium":1226},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 阳光柠檬红茶大杯","price":34.0,"kcal":716,"protein":26.0,"fat":25.0,"sodium":1234},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 雪碧中杯","price":32.0,"kcal":643,"protein":26.0,"fat":25.0,"sodium":1238},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 雪碧大杯","price":34.0,"kcal":698,"protein":26.0,"fat":25.0,"sodium":1254},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™冰奶铁中杯","price":43.0,"kcal":686,"protein":34.0,"fat":32.0,"sodium":1286},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™冰美式中杯","price":41.0,"kcal":551,"protein":27.0,"fat":25.0,"sodium":1209},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™热奶铁中杯","price":43.0,"kcal":724,"protein":37.0,"fat":33.0,"sodium":1308},{"label":"麦辣鸡腿汉堡 + 小杯玉米杯 + 麦咖啡™热美式中杯","price":41.0,"kcal":551,"protein":27.0,"fat":25.0,"sodium":1209}],"marginal":[{"from_price":32.0,"to_price":33.0,"delta_price":1.0,"delta_protein":7.0,"per_yuan":7.0},{"from_price":33.0,"to_price":34.5,"delta_price":1.5,"delta_protein":2.0,"per_yuan":1.33},{"from_price":34.5,"to_price":36.0,"delta_price":1.5,"delta_protein":2.0,"per_yuan":1.33},{"from_price":36.0,"to_price":44.5,"delta_price":8.5,"delta_protein":2.0,"per_yuan":0.24},{"from_price":44.5,"to_price":46.0,"delta_price":1.5,"delta_protein":2.0,"per_yuan":1.33}]};
+
+const fmt = n => n.toFixed(2);
+const $ = id => document.getElementById(id);
+
+const meal = DATA.meal, meta = DATA.meta, combos = DATA.combos;
+const def = combos[DATA.default_index];
+const knee = DATA.knee_index !== null ? combos[DATA.knee_index] : null;
+
+/* ---------- 顶部信息 ---------- */
+$('subline').innerHTML =
+  `<b>${meal.name}</b> · 现价 <b>${fmt(meal.base_price)} 元</b> · ` +
+  `${DATA.store.name} · 枚举 <b>${meta.combination_count}</b> 种合法组合`;
+
+const vt = $('tagVerify');
+if (meta.price_verified) {
+  vt.className = 'tag ok';
+  vt.textContent = `核价一致率 ${meta.verify_rate}%`;
+} else {
+  vt.className = 'tag no';
+  vt.textContent = '价格未经验证';
+}
+
+/* ---------- 边际收益：最好的一段 / 最差的一段 ---------- */
+const marg = DATA.marginal || [];
+if (marg.length) {
+  const best = marg.reduce((a,b) => b.per_yuan > a.per_yuan ? b : a);
+  const worst = marg.reduce((a,b) => b.per_yuan < a.per_yuan ? b : a);
+  $('bestNum').textContent = `+${fmt(best.per_yuan)} g/元`;
+  $('bestText').textContent =
+    `${fmt(best.from_price)} → ${fmt(best.to_price)} 元，多花 ${fmt(best.delta_price)} 元换来 ${best.delta_protein} g 蛋白`;
+  $('worstNum').textContent = `${fmt(worst.per_yuan)} g/元`;
+  $('worstText').textContent =
+    `${fmt(worst.from_price)} → ${fmt(worst.to_price)} 元，多花 ${fmt(worst.delta_price)} 元只换来 ${worst.delta_protein} g 蛋白`;
+}
+
+/* ---------- 对比 ---------- */
+if (knee) {
+  const rows = [
+    ['实付', fmt(def.price), fmt(knee.price)],
+    ['热量', def.kcal + ' kcal', knee.kcal + ' kcal'],
+    ['蛋白质', def.protein + ' g', knee.protein + ' g'],
+    ['脂肪', def.fat + ' g', knee.fat + ' g'],
+    ['钠', def.sodium + ' mg', knee.sodium + ' mg'],
+  ];
+  $('cmp').innerHTML = rows.map(([k,a,b]) => {
+    const changed = a !== b;
+    return `<div class="cmp-row"><span>${k}</span><span>${a} <span style="color:var(--dim)">→</span> <b style="color:${changed?'var(--red)':'var(--text)'}">${b}</b></span></div>`;
+  }).join('') +
+  `<div class="cmp-row" style="margin-top:6px;padding-top:9px;border-top:.5px solid var(--border)">
+     <span style="color:var(--text)">差额</span>
+     <span class="delta">${(knee.price-def.price)>=0?'+':''}${fmt(knee.price-def.price)} 元 /
+     ${(knee.protein-def.protein)>=0?'+':''}${(knee.protein-def.protein).toFixed(1)} g 蛋白</span>
+   </div>`;
+}
+
+/* ---------- 边际收益条 ---------- */
+const maxPer = Math.max(...marg.map(m => m.per_yuan), 0.001);
+const minPer = Math.min(...marg.map(m => m.per_yuan));
+$('bars').innerHTML = marg.map(m => {
+  const w = Math.max(3, (m.per_yuan / maxPer) * 100);
+  const cls = Math.abs(m.per_yuan - minPer) < 1e-9 ? 'bad' : (m.per_yuan === maxPer ? 'best' : '');
+  return `<div class="bar-row">
+    <div class="bar-head">
+      <span class="lb">${fmt(m.from_price)} → ${fmt(m.to_price)}</span>
+      <span class="vl">${m.per_yuan.toFixed(2)}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill ${cls}" style="width:${w}%"></div></div>
+  </div>`;
+}).join('');
+
+/* ---------- 表格 ---------- */
+const sorted = combos.map((c,i)=>({c,i})).sort((a,b)=> b.c.protein - a.c.protein);
+$('tableNote').textContent = `按蛋白质从高到低排列；红色行为拐点方案。`;
+$('tbody').innerHTML = sorted.map(({c,i}) => {
+  const hl = i === DATA.knee_index ? ' class="hl"' : '';
+  return `<tr${hl}>
+    <td>${c.label}</td>
+    <td class="num">${fmt(c.price)}</td>
+    <td class="num">${c.kcal}</td>
+    <td class="num">${c.protein}</td>
+    <td class="num">${c.fat}</td>
+    <td class="num">${c.sodium}</td>
+    <td class="num">${(c.protein/c.price).toFixed(2)}</td>
+  </tr>`;
+}).join('');
+
+/* ---------- 警告 ---------- */
+if (DATA.warnings && DATA.warnings.length) {
+  const box = $('warnBox');
+  box.style.display = 'block';
+  box.innerHTML = '<b style="color:#c9a961">数据说明</b><br>' + DATA.warnings.map(w => '· ' + w).join('<br>');
+}
+
+/* ---------- 散点图 ---------- */
+(function(){
+  const cv = $('scatter'), tip = $('tip');
+  const pad = {t: 22, r: 26, b: 46, l: 58};
+  let W=0, H=0, X, Y, pts=[], hover=null;
+
+  function resize(){
+    const box = cv.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    W = box.width; H = box.height;
+    cv.width = W * dpr; cv.height = H * dpr;
+    const ctx = cv.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    draw();
+  }
+
+  function scales(){
+    const ps = combos.map(c=>c.price), vs = combos.map(c=>c.protein);
+    let x0 = Math.min(...ps), x1 = Math.max(...ps);
+    let y0 = Math.min(...vs), y1 = Math.max(...vs);
+    const px = (x1-x0)*0.05 || 1, py = (y1-y0)*0.10 || 1;
+    x0 -= px; x1 += px; y0 -= py; y1 += py;
+    X = p => pad.l + (p - x0)/(x1-x0) * (W - pad.l - pad.r);
+    Y = v => H - pad.b - (v - y0)/(y1-y0) * (H - pad.t - pad.b);
+    return {x0,x1,y0,y1};
+  }
+
+  function draw(){
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+    const r = scales();
+
+    ctx.font = '11px ui-monospace,monospace';
+    ctx.strokeStyle = '#21262d'; ctx.fillStyle = '#8b949e'; ctx.lineWidth = 1;
+
+    const yTicks = 5;
+    for(let i=0;i<=yTicks;i++){
+      const v = r.y0 + (r.y1-r.y0)*i/yTicks;
+      const y = Y(v);
+      ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W-pad.r, y); ctx.stroke();
+      ctx.textAlign='right'; ctx.textBaseline='middle';
+      ctx.fillText(v.toFixed(0), pad.l-9, y);
+    }
+    const xTicks = 5;
+    for(let i=0;i<=xTicks;i++){
+      const p = r.x0 + (r.x1-r.x0)*i/xTicks;
+      const x = X(p);
+      ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, H-pad.b); ctx.stroke();
+      ctx.textAlign='center'; ctx.textBaseline='top';
+      ctx.fillText(p.toFixed(0), x, H-pad.b+9);
+    }
+
+    ctx.fillStyle='#6e7681'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.font='12px -apple-system,sans-serif';
+    ctx.fillText('实付价格（元）', pad.l + (W-pad.l-pad.r)/2, H-10);
+    ctx.save();
+    ctx.translate(14, pad.t + (H-pad.t-pad.b)/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.textBaseline='middle';
+    ctx.fillText('蛋白质（g）', 0, 0);
+    ctx.restore();
+
+    pts = combos.map((c,i)=>({x:X(c.price), y:Y(c.protein), c, i}));
+
+    pts.forEach(p=>{
+      if (DATA.front_indices.includes(p.i)) return;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2.6, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(139,148,158,.26)';
+      ctx.fill();
+    });
+
+    const front = DATA.front_indices.map(i=>pts[i]).sort((a,b)=>a.c.price-b.c.price);
+    if (front.length > 1){
+      ctx.beginPath();
+      front.forEach((p,k)=> k? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y));
+      ctx.strokeStyle='rgba(88,166,255,.55)'; ctx.lineWidth=1.6; ctx.stroke();
+    }
+    front.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 4.2, 0, Math.PI*2);
+      ctx.fillStyle='#58a6ff'; ctx.fill();
+      ctx.strokeStyle='#0d1117'; ctx.lineWidth=1.5; ctx.stroke();
+    });
+
+    const dp = pts[DATA.default_index];
+    if (dp){
+      ctx.beginPath();
+      ctx.arc(dp.x, dp.y, 7, 0, Math.PI*2);
+      ctx.strokeStyle='#e6edf3'; ctx.lineWidth=1.8; ctx.stroke();
+      ctx.fillStyle='#e6edf3'; ctx.font='11px -apple-system,sans-serif';
+      ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('默认搭配', dp.x+10, dp.y-4);
+    }
+
+    const kp = DATA.knee_index !== null ? pts[DATA.knee_index] : null;
+    if (kp){
+      ctx.beginPath();
+      ctx.arc(kp.x, kp.y, 7, 0, Math.PI*2);
+      ctx.fillStyle='#f85149'; ctx.fill();
+      ctx.strokeStyle='#0d1117'; ctx.lineWidth=2; ctx.stroke();
+      ctx.fillStyle='#f85149'; ctx.font='600 11px -apple-system,sans-serif';
+      ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('拐点', kp.x+10, kp.y-6);
+    }
+
+    if (hover){
+      ctx.beginPath();
+      ctx.arc(hover.x, hover.y, 6, 0, Math.PI*2);
+      ctx.strokeStyle='#58a6ff'; ctx.lineWidth=1.6; ctx.stroke();
+    }
+  }
+
+  cv.addEventListener('mousemove', e=>{
+    const rect = cv.getBoundingClientRect();
+    const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    let near=null, nd=12*12;
+    pts.forEach(p=>{
+      const d=(p.x-mx)**2+(p.y-my)**2;
+      if(d<nd){nd=d;near=p;}
+    });
+    if (near !== hover){ hover=near; draw(); }
+    if (near){
+      tip.style.display='block';
+      tip.innerHTML = `<div class="tl">${near.c.label}</div>
+        <div class="tv">${fmt(near.c.price)} 元 · ${near.c.kcal} kcal · 蛋白 ${near.c.protein} g · 钠 ${near.c.sodium} mg</div>`;
+      const tx = Math.min(mx+14, W-250), ty = Math.max(my-10, 4);
+      tip.style.left = tx+'px'; tip.style.top = ty+'px';
+    } else {
+      tip.style.display='none';
+    }
+  });
+  cv.addEventListener('mouseleave', ()=>{ hover=null; draw(); tip.style.display='none'; });
+
+  window.addEventListener('resize', resize);
+  resize();
+})();
+</script>
+</body>
+</html>
